@@ -7,14 +7,6 @@ def get_word(tree, chunk):
         token = tree.token(i)
         features = token.feature.split(",")
         surface += token.surface
-        # if features[0] == "名詞":
-        #     surface += token.surface
-        # elif features[0] == "形容詞":
-        #     surface += features[6]
-        #     break
-        # elif features[0] == "動詞":
-        #     surface += features[6]
-        #     break
     return surface
 
 
@@ -36,7 +28,6 @@ def get_2_words(line):
 
     index = 0
     while True:
-        # print(f"{index} {chunk_length}")
         if index >= chunk_length:
             break
         now_word = get_word(tree, chunk_dic[index])
@@ -73,7 +64,7 @@ def get_2_words(line):
 
 if __name__ == "__main__":
     # input.txtからテキストを1行ずつ読み込む
-    with open("texts/input_after_clean.txt", mode="r") as f:
+    with open("texts/input.txt", mode="r") as f:
         lines = f.readlines()
     texts = []
     not_use_texts = []
@@ -84,16 +75,22 @@ if __name__ == "__main__":
         replace_text = get_2_words(line)
         if len(line) == len(replace_text):
             texts.append(line)
-            texts.append(replace_text)
         else:
             not_use_texts.append(line)
 
+    final_texts = []
+    for line in texts:
+        print(line)
+        # 係り受け解析
+        replace_text = get_2_words(line)
+        final_texts.append(line)
+        final_texts.append(replace_text)
+
+    print(f"row data: {len(lines)}")
+    print(f"use_texts: {len(texts)}")
+    print(f"not_use_texts: {len(not_use_texts)}")
+
     #  textsをファイルに出力
     with open("texts/output.txt", mode="w") as f:
-        for text in texts:
-            f.write(text + "\n")
-
-    #  not_use_textsをファイルに出力
-    with open("texts/not_use_output.txt", mode="w") as f:
-        for text in not_use_texts:
+        for i, text in enumerate(final_texts):
             f.write(text + "\n")

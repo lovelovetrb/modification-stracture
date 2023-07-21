@@ -1,0 +1,2 @@
+cabocha-python==0.69.3
+python-config==0.1.2

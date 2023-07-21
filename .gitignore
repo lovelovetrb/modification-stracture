@@ -1,2 +1,6 @@
 .venv
 mlm-scoring-transformers
+
+__pycache__
+
+select-text.py
